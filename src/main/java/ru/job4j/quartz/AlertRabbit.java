@@ -14,15 +14,13 @@ import static org.quartz.TriggerBuilder.*;
 import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
-    private static Connection connection;
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
+    public static void main(String[] args) throws IOException {
         AlertRabbit alertRabbit = new AlertRabbit();
         Properties prop = alertRabbit.readProperties("rabbit.properties");
         int interval = Integer
                 .parseInt(prop.getProperty("rabbit.interval"));
-        connection = alertRabbit.initConnection(prop);
-        try {
+        try (Connection connection = alertRabbit.initConnection(prop)) {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
             JobDataMap data = new JobDataMap();
@@ -59,8 +57,7 @@ public class AlertRabbit {
         String url = properties.getProperty("url");
         String login = properties.getProperty("username");
         String password = properties.getProperty("password");
-        connection = DriverManager.getConnection(url, login, password);
-        return connection;
+        return DriverManager.getConnection(url, login, password);
     }
 
     public static class Rabbit implements Job {
