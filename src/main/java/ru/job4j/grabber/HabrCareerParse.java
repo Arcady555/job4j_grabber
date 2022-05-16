@@ -9,15 +9,14 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class HabrCareerParse {
-    private static int num;
 
     private static final String SOURCE_LINK = "https://career.habr.com";
 
-    private static final String PAGE_LINK = String.format("%s/vacancies/java_developer?page=" + num, SOURCE_LINK);
+    private static final String PAGE_LINK = String.format("%s/vacancies/java_developer?page=", SOURCE_LINK);
 
     public static void main(String[] args) throws IOException {
-        for (num = 1; num <= 5; num++) {
-            Connection connection = Jsoup.connect(PAGE_LINK);
+        for (int num = 1; num <= 5; num++) {
+            Connection connection = Jsoup.connect(PAGE_LINK + num);
             Document document = connection.get();
             Elements rows = document.select(".vacancy-card__inner");
             rows.forEach(row -> {
