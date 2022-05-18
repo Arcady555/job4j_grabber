@@ -33,31 +33,40 @@ public class HabrCareerParse implements Parse {
     }
 
     @Override
-    public List<Post> list(String link) throws IOException {
+    public List<Post> list(String link) {
         List<Post> vacancies = new ArrayList<>();
         for (int num = 1; num <= 5; num++) {
             Connection connection = Jsoup.connect(PAGE_LINK + num);
-            Document document = connection.get();
+            Document document = null;
+            try {
+                document = connection.get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Elements rows = document.select(".vacancy-card__inner");
             rows.forEach(row -> {
                 Element titleElement = row.select(".vacancy-card__title").first();
                 Element linkElement = titleElement.child(0);
                 Element dateElement =  row.select(".vacancy-card__date").first();
                 Element timeElement = dateElement.child(0);
-                String vacancyName = titleElement.text();
-                String vacancyLink = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
-                String time = timeElement.attr("datetime");
-                String description = null;
-                try {
-                    description = retrieveDescription(vacancyLink);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                LocalDateTime created = dateTimeParser.parse(time);
-                Post post = new Post(vacancyName, vacancyLink, description, created);
+                Post post = parsePost(titleElement, linkElement, dateElement, timeElement);
                 vacancies.add(post);
             });
         }
         return vacancies;
+    }
+
+    private Post parsePost(Element titleElement, Element linkElement, Element dateElement, Element timeElement) {
+        String vacancyName = titleElement.text();
+        String vacancyLink = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
+        String time = timeElement.attr("datetime");
+        String description = null;
+        try {
+            description = retrieveDescription(vacancyLink);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LocalDateTime created = dateTimeParser.parse(time);
+        return new Post(vacancyName, vacancyLink, description, created);
     }
 }
