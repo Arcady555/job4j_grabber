@@ -15,6 +15,7 @@ import java.util.List;
 
 public class HabrCareerParse implements Parse {
 
+    public static final int LOOPS = 5;
     private static final String SOURCE_LINK = "https://career.habr.com";
 
     private static final String PAGE_LINK = String.format("%s/vacancies/java_developer?page=", SOURCE_LINK);
@@ -35,7 +36,7 @@ public class HabrCareerParse implements Parse {
     @Override
     public List<Post> list(String link) {
         List<Post> vacancies = new ArrayList<>();
-        for (int num = 1; num <= 5; num++) {
+        for (int num = 1; num <= LOOPS; num++) {
             Connection connection = Jsoup.connect(PAGE_LINK + num);
             Document document = null;
             try {
@@ -44,19 +45,16 @@ public class HabrCareerParse implements Parse {
                 e.printStackTrace();
             }
             Elements rows = document.select(".vacancy-card__inner");
-            rows.forEach(row -> {
-                Element titleElement = row.select(".vacancy-card__title").first();
-                Element linkElement = titleElement.child(0);
-                Element dateElement =  row.select(".vacancy-card__date").first();
-                Element timeElement = dateElement.child(0);
-                Post post = parsePost(titleElement, linkElement, dateElement, timeElement);
-                vacancies.add(post);
-            });
+            rows.forEach(row ->  vacancies.add(parsePost(row)));
         }
         return vacancies;
     }
 
-    private Post parsePost(Element titleElement, Element linkElement, Element dateElement, Element timeElement) {
+    private Post parsePost(Element row) {
+        Element titleElement = row.select(".vacancy-card__title").first();
+        Element linkElement = titleElement.child(0);
+        Element dateElement =  row.select(".vacancy-card__date").first();
+        Element timeElement = dateElement.child(0);
         String vacancyName = titleElement.text();
         String vacancyLink = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
         String time = timeElement.attr("datetime");
