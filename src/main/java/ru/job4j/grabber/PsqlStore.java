@@ -66,7 +66,8 @@ public class PsqlStore implements Store, AutoCloseable {
     public Post findById(int id) {
         Post post = null;
         try (PreparedStatement statement = cnn.prepareStatement(
-                "select * from post where id =" + id)) {
+                "select * from post where id = ?")) {
+            statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     post = newPost(resultSet);
@@ -114,7 +115,7 @@ public class PsqlStore implements Store, AutoCloseable {
                 for (Post post : list) {
                     System.out.println(post.toString());
                 }
-                System.out.println(psqlStore.findById(17).toString());
+                System.out.println(psqlStore.findById(20).toString());
             }
         }
     }
