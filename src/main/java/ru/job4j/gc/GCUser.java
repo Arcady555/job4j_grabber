@@ -7,6 +7,7 @@ public class GCUser {
     private static final Runtime ENVIRONMENT = Runtime.getRuntime();
 
     public static void info() {
+
         final long freeMemory = ENVIRONMENT.freeMemory();
         final long totalMemory = ENVIRONMENT.totalMemory();
         final long maxMemory = ENVIRONMENT.maxMemory();
