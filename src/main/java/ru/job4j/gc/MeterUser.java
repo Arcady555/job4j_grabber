@@ -9,7 +9,7 @@ public class MeterUser {
                 new User("Masha", false, 40),
                 new User("Vica", false, 11),
                 new User("Roma", true, 2),
-                new User("Mark", true, 2)
+                new User("M", true, 2)
         };
         for (User user : users) {
             System.out.println("Объект " + user + " занимает " + getByte(user) + " байт памяти");
