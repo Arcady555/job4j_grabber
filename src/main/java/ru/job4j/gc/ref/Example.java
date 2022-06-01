@@ -6,7 +6,6 @@ import java.lang.ref.SoftReference;
 
 public class Example {
     public static void main(String[] args) {
-
         User[] array = new User[100];
 
         SoftReference[] softArray = new SoftReference[100];
