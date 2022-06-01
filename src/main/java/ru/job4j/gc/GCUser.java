@@ -19,7 +19,7 @@ public class GCUser {
 
     public static void main(String[] args) {
         info();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 31430; i++) {
             new User(i);
         }
         info();
