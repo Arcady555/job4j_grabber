@@ -50,7 +50,7 @@ public class Emulator {
                  i++;
                  continue;
              }
-             String rsl = aC.load(key);
+             String rsl = aC.get(key);
              try {
                  while (i < 5) {
                      System.out.println("Файл находиться в кеше.\n"

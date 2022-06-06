@@ -2,6 +2,8 @@ package ru.job4j.cache;
 
 import java.io.*;
 import java.lang.ref.SoftReference;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class DirFileCache extends AbstractCache<String, String> {
 
@@ -13,16 +15,13 @@ public class DirFileCache extends AbstractCache<String, String> {
 
     @Override
     protected String load(String key) {
-        if (cache.get(key) == null) {
-            StringBuilder text = new StringBuilder();
-            try (BufferedReader in = new BufferedReader(new FileReader(cachingDir + key))) {
-                in.lines().forEach(s -> text.append(s).append(System.lineSeparator()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            cache.put(key, new SoftReference<>(text.toString()));
+        String rsl = "";
+        try {
+            rsl = Files.readString(Path.of(cachingDir, key));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return cache.get(key).get();
+        return rsl;
     }
 
     @Override
