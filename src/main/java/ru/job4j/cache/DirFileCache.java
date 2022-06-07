@@ -26,6 +26,6 @@ public class DirFileCache extends AbstractCache<String, String> {
 
     @Override
     protected boolean validationKey(String key) {
-        return new File(cachingDir + key).exists();
+        return new File(cachingDir, key).exists();
     }
 }
