@@ -30,4 +30,21 @@ public class MaxMinTest {
         int rsl = maxMin.min(list, comparator);
         Assert.assertEquals(2, rsl);
     }
+
+    @Test
+    public void whenOne() {
+        MaxMin maxMin = new MaxMin();
+        Comparator<Integer> comparator = Integer::compare;
+        List<Integer> list = List.of(7);
+        int rsl = maxMin.min(list, comparator);
+        Assert.assertEquals(7, rsl);
+    }
+
+    @Test
+    public void whenNull() {
+        MaxMin maxMin = new MaxMin();
+        Comparator<Integer> comparator = Integer::compare;
+        List<Integer> list = List.of();
+        Assert.assertNull(maxMin.min(list, comparator));
+    }
 }
