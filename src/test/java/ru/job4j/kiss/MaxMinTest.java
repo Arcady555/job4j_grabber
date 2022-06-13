@@ -1,30 +1,33 @@
 package ru.job4j.kiss;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class MaxMinTest extends TestCase {
+import static org.junit.Assert.*;
 
-    public void testMaxOfColl() {
+public class MaxMinTest {
+    @Test
+    public void whenMaxOfColl() {
         MaxMin maxMin = new MaxMin();
         Comparator<Integer> comparator = Integer::compare;
         List<Integer> list = List.of(
-                1, 2, 10, 67, 22, 12
+                100, 2, 10, 67, 22, 12
         );
-        int rsl = maxMin.maxOfColl(list, comparator);
-        Assert.assertEquals(67, rsl);
+        int rsl = maxMin.max(list, comparator);
+        Assert.assertEquals(100, rsl);
     }
 
-    public void testMinOfColl() {
+    @Test
+    public void whenMinOfColl() {
         MaxMin maxMin = new MaxMin();
         Comparator<Integer> comparator = Integer::compare;
         List<Integer> list = List.of(
-                1, 2, 10, 67, 22, 12
+                100, 2, 10, 67, 22, 12
         );
-        int rsl = maxMin.minOfColl(list, comparator);
-        Assert.assertEquals(1, rsl);
+        int rsl = maxMin.min(list, comparator);
+        Assert.assertEquals(2, rsl);
     }
 }
