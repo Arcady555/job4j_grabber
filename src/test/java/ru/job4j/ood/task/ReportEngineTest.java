@@ -2,7 +2,6 @@ package ru.job4j.ood.task;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static ru.job4j.ood.task.ReportEngine.DATE_FORMAT;
 
 import org.junit.Test;
 import java.util.Calendar;
@@ -20,8 +19,8 @@ public class ReportEngineTest {
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(";")
-                .append(DATE_FORMAT.format(worker.getHired().getTime())).append(";")
-                .append(DATE_FORMAT.format(worker.getFired().getTime())).append(";")
+                .append(ConstantValues.DATE_FORMAT.format(worker.getHired().getTime())).append(";")
+                .append(ConstantValues.DATE_FORMAT.format(worker.getFired().getTime())).append(";")
                 .append(worker.getSalary()).append(";")
                 .append(System.lineSeparator());
         assertThat(engine.generate(em -> true), is(expect.toString()));
@@ -35,13 +34,30 @@ public class ReportEngineTest {
         store.add(worker);
         Report engine = new ReportEngineForIT(store);
         StringBuilder expect = new StringBuilder()
-                .append("Name; Hired; Fired; Salary;")
+                .append("<!DOCTIME HTML>")
                 .append(System.lineSeparator())
-                .append(worker.getName()).append(";")
-                .append(worker.getHired().getTime()).append(";")
-                .append(worker.getFired().getTime()).append(";")
-                .append(worker.getSalary()).append(";")
-                .append(System.lineSeparator());
+                .append("<html>").append(System.lineSeparator())
+                .append("<head>").append(System.lineSeparator())
+                .append("<meta http-equiv=\"Content-Type\" content=\"text/html;charset")
+                .append(System.lineSeparator())
+                .append("<title>Таблица</title>")
+                .append(System.lineSeparator())
+                .append("</head").append(System.lineSeparator())
+                .append("<body>").append(System.lineSeparator())
+                .append("<table>").append(System.lineSeparator())
+                .append("<tr>").append(System.lineSeparator())
+                .append("<th>Name</th><th>Hired</</th><th>Salary</th>")
+                .append(System.lineSeparator())
+                .append("</tr>").append(System.lineSeparator())
+                .append("<tr>").append(System.lineSeparator())
+                .append("<td>").append("Ivan").append("</td>")
+                .append("<td>").append(worker.getHired().getTime()).append("</td>")
+                .append("<td>").append(worker.getHired().getTime()).append("</td>")
+                .append("<td>").append("100.0").append("</td>")
+                .append("</tr>").append(System.lineSeparator())
+                .append("</table>").append(System.lineSeparator())
+                .append("</body>").append(System.lineSeparator())
+                .append("</html>").append(System.lineSeparator());
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 
@@ -56,9 +72,9 @@ public class ReportEngineTest {
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(";")
-                .append(DATE_FORMAT.format(worker.getHired().getTime())).append(";")
-                .append(DATE_FORMAT.format(worker.getFired().getTime())).append(";")
-                .append(worker.getSalary() / 1000).append(";")
+                .append(ConstantValues.DATE_FORMAT.format(worker.getHired().getTime())).append(";")
+                .append(ConstantValues.DATE_FORMAT.format(worker.getFired().getTime())).append(";")
+                .append(worker.getSalary() / ConstantValues.DIVIDER_ACCOUTER).append(";")
                 .append(System.lineSeparator());
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }

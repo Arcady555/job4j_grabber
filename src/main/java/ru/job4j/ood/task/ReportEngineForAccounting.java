@@ -1,10 +1,8 @@
 package ru.job4j.ood.task;
 
-import java.text.SimpleDateFormat;
 import java.util.function.Predicate;
 
 public class ReportEngineForAccounting implements Report {
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd:MM:yyyy HH:mm");
 
     private Store store;
 
@@ -19,9 +17,9 @@ public class ReportEngineForAccounting implements Report {
                 .append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(";")
-                    .append(DATE_FORMAT.format(employee.getHired().getTime())).append(";")
-                    .append(DATE_FORMAT.format(employee.getFired().getTime())).append(";")
-                    .append(employee.getSalary() / 1000).append(";")
+                    .append(ConstantValues.DATE_FORMAT.format(employee.getHired().getTime())).append(";")
+                    .append(ConstantValues.DATE_FORMAT.format(employee.getFired().getTime())).append(";")
+                    .append(employee.getSalary() / ConstantValues.DIVIDER_ACCOUTER).append(";")
                     .append(System.lineSeparator());
         }
         return text.toString();
