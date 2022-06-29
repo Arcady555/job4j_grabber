@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.Test;
 import java.util.Calendar;
-
 public class ReportEngineTest {
 
     @Test
@@ -102,6 +101,62 @@ public class ReportEngineTest {
                 .append(worker3.getName()).append(";")
                 .append(worker3.getSalary()).append(";")
                 .append(System.lineSeparator());
+        assertThat(engine.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenGeneratedInXML() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new ReportEngineInXML(store);
+        StringBuilder expect = new StringBuilder()
+                .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")
+                .append(System.lineSeparator())
+                .append("<EmployeesList>")
+                .append(System.lineSeparator())
+                .append("    <employees>")
+                .append(System.lineSeparator())
+                .append("        <fired>")
+                .append(ConstantValues.DATE_FORMAT_FOF_SERIALISATION.format(worker.getFired().getTime()))
+                .append("</fired>")
+                .append(System.lineSeparator())
+                .append("        <hired>")
+                .append(ConstantValues.DATE_FORMAT_FOF_SERIALISATION.format(worker.getHired().getTime()))
+                .append("</hired>")
+                .append(System.lineSeparator())
+                .append("        <name>")
+                .append(worker.getName())
+                .append("</name>")
+                .append(System.lineSeparator())
+                .append("        <salary>")
+                .append(worker.getSalary())
+                .append("</salary>")
+                .append(System.lineSeparator())
+                .append("    </employees>")
+                .append(System.lineSeparator())
+                .append("</EmployeesList>")
+                .append(System.lineSeparator());
+        assertThat(engine.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenGeneratedInJSON() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new ReportEngineInJSON(store);
+        StringBuilder expect = new StringBuilder()
+                .append("{\"employees\":[{\"name\":\"").append(worker.getName())
+                .append("\",\"hired\":\"")
+                .append(ConstantValues.DATE_FORMAT_FOF_SERIALISATION.format(worker.getHired().getTime()))
+                .append("\",\"fired\":\"")
+                .append(ConstantValues.DATE_FORMAT_FOF_SERIALISATION.format(worker.getFired().getTime()))
+                .append("\",\"salary\":")
+                .append(worker.getSalary())
+                .append("}]}");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 }
