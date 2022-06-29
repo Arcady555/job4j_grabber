@@ -22,7 +22,6 @@ public class ReportEngineInJSON implements Report {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(text.toString());
         return text.toString();
     }
 }
