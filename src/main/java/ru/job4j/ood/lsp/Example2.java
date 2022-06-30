@@ -35,7 +35,7 @@ class MotoDrive extends Drive {
 
     public int road(int distance, int fuel) {
         int rsl = (fuel / fuelConsumption * 100) - distance;
-        if (rsl < 2) {
+        if (rsl < -2) {
             throw new IllegalArgumentException("Need more fuel!");
         }
         return rsl;
