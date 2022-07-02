@@ -8,7 +8,6 @@ import java.util.GregorianCalendar;
 import static org.junit.Assert.*;
 
 public class ControlQualityTest {
-
     @Test
     public void whenInOneStore() {
         Food milk = new Milk("Доярушка");
