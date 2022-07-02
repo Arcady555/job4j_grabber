@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 public class ReportEngineInJSON implements Report {
 
     private Store store;
-    ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     public ReportEngineInJSON(Store store) {
         this.store = store;

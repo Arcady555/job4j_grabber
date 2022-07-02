@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 public class ReportEngineInXML implements Report {
 
     private Store store;
-    Marshaller marshaller;
+    private Marshaller marshaller;
 
     public ReportEngineInXML(Store store) {
         this.store = store;
