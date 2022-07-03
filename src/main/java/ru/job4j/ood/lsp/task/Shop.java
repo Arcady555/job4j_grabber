@@ -4,16 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shop implements Store {
-
     private List<Food> list = new ArrayList<>();
 
     @Override
     public List<Food> getList() {
-        return list;
+        return new ArrayList<>(list);
     }
 
     @Override
-    public void add(Food food) {
+    public boolean accept(Food food) {
+        if (expConsumption(food) <= ConstantValues.LIMIT_MIN) {
+            throw new IllegalArgumentException("Invalid data!");
+        }
+        return expConsumption(food) > ConstantValues.LIMIT_1
+                && expConsumption(food) < ConstantValues.LIMIT_MAX;
+    }
+
+    @Override
+    public boolean add(Food food) {
+        if (!accept(food)) {
+            return false;
+        }
+        if (expConsumption(food) > ConstantValues.LIMIT_2) {
+            if (food.getDiscount() == 0) {
+                throw new IllegalArgumentException("Set Discount!");
+            }
+            food.setDiscount(food.getDiscount());
+        }
         list.add(food);
+        return true;
     }
 }

@@ -8,11 +8,23 @@ public class Warehouse implements Store {
 
     @Override
     public List<Food> getList() {
-        return list;
+        return new ArrayList<>(list);
     }
 
     @Override
-    public void add(Food food) {
+    public boolean accept(Food food) {
+        if (expConsumption(food) <= ConstantValues.LIMIT_MIN) {
+            throw new IllegalArgumentException("Invalid data!");
+        }
+        return expConsumption(food) <= ConstantValues.LIMIT_1;
+    }
+
+    @Override
+    public boolean add(Food food) {
+        if (!accept(food)) {
+            return false;
+        }
         list.add(food);
+        return true;
     }
 }

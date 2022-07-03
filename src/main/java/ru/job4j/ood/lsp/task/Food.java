@@ -52,9 +52,4 @@ public class Food {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
-
-    public double expConsumption() {
-        return (double) (Calendar.getInstance().getTimeInMillis() - createDate.getTimeInMillis())
-                / (expiryDate.getTimeInMillis() - createDate.getTimeInMillis());
-    }
 }
