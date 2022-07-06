@@ -13,18 +13,11 @@ public class Trash implements Store {
 
     @Override
     public boolean accept(Food food) {
-        if (expConsumption(food) <= ConstantValues.LIMIT_MIN) {
-            throw new IllegalArgumentException("Invalid data!");
-        }
-        return expConsumption(food) >= ConstantValues.LIMIT_MAX;
+        return expConsumption(food) >= ConstantValues.LIMIT_TRASH;
     }
 
     @Override
     public boolean add(Food food) {
-        if (!accept(food)) {
-            return false;
-        }
-        list.add(food);
-        return true;
+        return accept(food) && list.add(food);
     }
 }

@@ -13,18 +13,12 @@ public class Warehouse implements Store {
 
     @Override
     public boolean accept(Food food) {
-        if (expConsumption(food) <= ConstantValues.LIMIT_MIN) {
-            throw new IllegalArgumentException("Invalid data!");
-        }
-        return expConsumption(food) <= ConstantValues.LIMIT_1;
+        return expConsumption(food) > ConstantValues.LIMIT_ZERO
+                && expConsumption(food) <= ConstantValues.LIMIT_WAREHOUSE;
     }
 
     @Override
     public boolean add(Food food) {
-        if (!accept(food)) {
-            return false;
-        }
-        list.add(food);
-        return true;
+        return accept(food) && list.add(food);
     }
 }
