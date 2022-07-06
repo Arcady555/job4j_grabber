@@ -1,9 +1,9 @@
 package ru.job4j.ood.lsp.task2;
 
-public class Car implements Machine {
+public class Truck implements Machine {
     private int size;
 
-    public Car(int size) {
+    public Truck(int size) {
         this.size = size;
     }
 }
