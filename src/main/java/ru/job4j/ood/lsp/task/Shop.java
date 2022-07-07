@@ -23,8 +23,13 @@ public class Shop implements Store {
             if (food.getDiscount() == 0) {
                 throw new IllegalArgumentException("Set Discount!");
             }
-            food.setDiscount(food.getDiscount());
+            discountFood(food);
         }
         return accept(food) && list.add(food);
+    }
+
+    private void discountFood(Food food) {
+        int newPrice = (int) (food.getPrice() * food.getDiscount());
+        food.setPrice(newPrice);
     }
 }

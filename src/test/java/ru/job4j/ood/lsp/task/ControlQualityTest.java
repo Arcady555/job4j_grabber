@@ -27,7 +27,8 @@ public class ControlQualityTest {
         milk1ED.add(Calendar.MONTH, 1);
         milk1ED.add(Calendar.DAY_OF_MONTH, -8);
         milk1.setExpiryDate(milk1ED);
-        milk1.setDiscount(0.75);
+        milk1.setPrice(120);
+        milk1.setDiscount(0.7);
 
         Calendar bread1CD = Calendar.getInstance();
         bread1CD.add(Calendar.DAY_OF_MONTH, -17);
@@ -71,6 +72,6 @@ public class ControlQualityTest {
         assertThat(shop.getList(), is(List.of(milk1, bread1)));
         assertThat(trash.getList(), is(List.of(milk2)));
         assertThat(warehouse.getList(), is(List.of(bread2)));
-        Assert.assertEquals(milk1.getDiscount(), 0.75, 0.1);
+        Assert.assertEquals(milk1.getPrice(), 84);
     }
 }
