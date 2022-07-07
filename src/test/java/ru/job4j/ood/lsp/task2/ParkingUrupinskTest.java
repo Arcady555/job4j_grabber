@@ -12,70 +12,20 @@ public class ParkingUrupinskTest {
 
     @Ignore
     @Test
-    public void whenPlusTwoCarsAndTwoTrucks() {
-        /**
-         * Изображаю парковку
-         * Ячейки 1-для легковых
-         * Ячейки 3-для грузовых
-         * (У грузовых размер 2 или 3)
-         */
-        int[][] array = {
-                {1, 1, 1},
-                {3, 1, 3},
-                {3, 3, 3},
-                {1, 1, 1}
-        };
-        Parking parking = new ParkingUrupinsk(array);
-        /**
-         * На парковку заехало 2 легковушки и 2 грузовика.
-         * Встали на родные клетки, раз они есть в наличии
-         * Занимают сперва первые строки и ячейки
-         */
-        parking.add(new Car(1));
-        parking.add(new Car(1));
-        parking.add(new Truck(2));
-        parking.add(new Truck(3));
-        /**
-         * После чего массив имеет вид:
-         * {0, 0, 1},
-         * {0, 1, 0},
-         * {3, 3, 3},
-         * {1, 1, 1}
-         *
-         * Вызывается метод "Что ещё?"(можно бы загнать на парковку)
-         */
-        List<List<MyPair>> listWhatEv = parking.whatEv();
-        /**
-         * Варианты возможного размещения:
-         * (Грузовик 2 может встать на две ячейки 1, если они идут подряд горизонтально или вертикально.
-         * Грузовик 3 - на три ячейки 1)
-         * (На будущее учесть, что грузовик 2 может встать вместо грузовика 3,
-         * но не наоборот)
-         */
-        List<MyPair> listExpected1 = List.of(
-                new MyPair(5, new Car(1)),
-                new MyPair(3, new Truck(3))
-        );
-        List<MyPair> listExpected2 = List.of(
-                new MyPair(2, new Car(1)),
-                new MyPair(4, new Truck(3))
-        );
-        List<MyPair> listExpected3 = List.of(
-                new MyPair(3, new Car(1)),
-                new MyPair(3, new Truck(3)),
-                new MyPair(1, new Truck(2))
-        );
-        /**
-         * Список этих вариантов и должен выдать метод parking.whatEv()
-         */
-        List<List<MyPair>> listExpected = List.of(
-                listExpected1,
-                listExpected2,
-                listExpected3
-        );
-        /**
-         * Вот и сравним))
-         */
-        Assert.assertEquals(listWhatEv, listExpected);
+    public void whenPlusTwoCarsAndOneTrucks() {
+        Parking parking1 = new ParkingUrupinsk(2, 1);
+        Assert.assertTrue(parking1.add(new Car()));
+        Assert.assertTrue(parking1.add(new Car()));
+        Assert.assertTrue(parking1.add(new Truck(2)));
+        Assert.assertFalse(parking1.add(new Truck(3)));
+    }
+
+    @Ignore
+    @Test
+    public void whenTwoTrucks() {
+        Parking parking2 = new ParkingUrupinsk(2, 1);
+        Assert.assertTrue(parking2.add(new Truck(3)));
+        Assert.assertTrue(parking2.add(new Truck(2)));
+        Assert.assertFalse(parking2.add(new Car()));
     }
 }

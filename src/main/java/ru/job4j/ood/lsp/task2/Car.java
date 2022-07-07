@@ -1,9 +1,14 @@
 package ru.job4j.ood.lsp.task2;
 
 public class Car implements Machine {
-    private int size;
+    private final int size;
 
-    public Car(int size) {
-        this.size = size;
+    public Car() {
+        this.size = ConstantValues.CAR_SIZE;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
     }
 }
