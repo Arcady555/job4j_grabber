@@ -10,22 +10,36 @@ import static org.junit.Assert.*;
 
 public class ParkingUrupinskTest {
 
-    @Ignore
     @Test
     public void whenPlusTwoCarsAndOneTrucks() {
-        Parking parking1 = new ParkingUrupinsk(2, 1);
+        ParkingUrupinsk parking1 = new ParkingUrupinsk(2, 1);
         Assert.assertTrue(parking1.add(new Car()));
         Assert.assertTrue(parking1.add(new Car()));
         Assert.assertTrue(parking1.add(new Truck(2)));
         Assert.assertFalse(parking1.add(new Truck(3)));
     }
 
-    @Ignore
     @Test
-    public void whenTwoTrucks() {
+    public void whenPlusTwoTrucks() {
         Parking parking2 = new ParkingUrupinsk(2, 1);
         Assert.assertTrue(parking2.add(new Truck(3)));
         Assert.assertTrue(parking2.add(new Truck(2)));
         Assert.assertFalse(parking2.add(new Car()));
+    }
+
+    @Test
+    public void whenPlusTwoCars() {
+        Parking parking3 = new ParkingUrupinsk(2, 1);
+        Assert.assertTrue(parking3.add(new Car()));
+        Assert.assertTrue(parking3.add(new Car()));
+        Assert.assertFalse(parking3.add(new Car()));
+    }
+
+    @Test
+    public void whenPlusOneCarsAndOneTrucks() {
+        Parking parking4 = new ParkingUrupinsk(2, 1);
+        Assert.assertTrue(parking4.add(new Car()));
+        Assert.assertTrue(parking4.add(new Truck(3)));
+        Assert.assertFalse(parking4.add(new Truck(2)));
     }
 }
