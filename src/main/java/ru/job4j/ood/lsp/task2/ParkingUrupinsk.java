@@ -4,45 +4,28 @@ public class ParkingUrupinsk implements Parking {
     private final Machine[] array;
     private int carPlaceAmount;
     private int truckPlaceAmount;
-
-    public Machine[] getArray() {
-        return array;
-    }
+    private int counter;
 
     public ParkingUrupinsk(int carPlaceAmount, int truckPlaceAmount) {
         this.carPlaceAmount = carPlaceAmount;
         this.truckPlaceAmount = truckPlaceAmount;
         this.array = new Machine[carPlaceAmount + truckPlaceAmount];
+        this.counter = 0;
     }
 
     @Override
     public boolean add(Machine machine) {
         boolean rsl = false;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == null) {
-                if (machine.getSize() > ConstantValues.CAR_SIZE) {
-                    if (truckPlaceAmount > 0) {
-                        array[i] = machine;
-                        truckPlaceAmount--;
-                        rsl = true;
-                        break;
-                    } else {
-                        if (carPlaceAmount >= machine.getSize()) {
-                            array[i] = machine;
-                            carPlaceAmount -= machine.getSize();
-                            rsl = true;
-                            break;
-                        }
-                    }
-                } else {
-                    if (carPlaceAmount > 0) {
-                        array[i] = machine;
-                        carPlaceAmount--;
-                        rsl = true;
-                        break;
-                    }
-                }
-            }
+        if (machine.getSize() > ConstantValues.CAR_SIZE && truckPlaceAmount > 0) {
+            array[counter] = machine;
+            truckPlaceAmount--;
+            counter++;
+            rsl = true;
+        } else if (carPlaceAmount >= machine.getSize()) {
+            array[counter] = machine;
+            carPlaceAmount -= machine.getSize();
+            counter++;
+            rsl = true;
         }
         return rsl;
     }
