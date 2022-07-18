@@ -8,18 +8,18 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
-        return Objects.equals(parentName, Menu.ROOT)
+        if (findItem(childName).isPresent()) {
+            return false;
+        }
+        return Objects.equals(parentName, ConstantValues.ROOT)
                 ? rootElements.add(new SimpleMenuItem(childName, actionDelegate))
-                : findItem(parentName).get().menuItem.getChildren()
+                : findItem(parentName).isPresent() && findItem(parentName).get().menuItem.getChildren()
                 .add(new SimpleMenuItem(childName, actionDelegate));
     }
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        ItemInfo fI = findItem(itemName).get();
-        return Optional.of(new MenuItemInfo(
-                fI.menuItem,
-                fI.number));
+        return findItem(itemName).map(i -> new MenuItemInfo(i.menuItem, i.number));
     }
 
     @Override
@@ -34,9 +34,6 @@ public class SimpleMenu implements Menu {
 
             @Override
             public MenuItemInfo next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
                 itemInfo = dfsIterator.next();
                 return new MenuItemInfo(itemInfo.menuItem, itemInfo.number);
             }
@@ -44,16 +41,16 @@ public class SimpleMenu implements Menu {
     }
 
     private Optional<ItemInfo> findItem(String name) {
-        DFSIterator dfsIterator = new DFSIterator();
-        ItemInfo rsl = null;
-        while (dfsIterator.hasNext()) {
-            rsl = dfsIterator.next();
-            if (rsl.menuItem.getName().equals(name)) {
+        Optional<ItemInfo> rsl = Optional.empty();
+        DFSIterator df = new DFSIterator();
+        while (df.hasNext()) {
+            ItemInfo itemInfo = df.next();
+            if (name.equals(itemInfo.menuItem.getName())) {
+                rsl = Optional.of(itemInfo);
                 break;
             }
-            rsl = null;
         }
-        return rsl != null ? Optional.of(rsl) : Optional.empty();
+        return rsl;
     }
 
     private static class SimpleMenuItem implements MenuItem {

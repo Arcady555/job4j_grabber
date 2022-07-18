@@ -6,18 +6,13 @@ public class HardMenuPrinter implements MenuPrinter {
         menu.forEach(i -> {
             StringBuilder hyphen = new StringBuilder();
             int count = countDot(i.getNumber());
-            hyphen.append("----".repeat(count - 1));
+            hyphen.append(ConstantValues.HYPHEN.repeat(count - 1));
             System.out.println(hyphen + i.getNumber() + i.getName());
         }
         );
     }
 
     private int countDot(String str) {
-        int rsl = 0;
-        while (str.contains(".")) {
-            str = str.substring(str.indexOf(".") + 1);
-            rsl++;
-        }
-        return rsl;
+        return str.split("\\" + ConstantValues.DOT).length;
     }
 }
