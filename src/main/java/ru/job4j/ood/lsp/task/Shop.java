@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shop implements Store {
-    private List<Food> list = new ArrayList<>();
+    private final List<Food> list = new ArrayList<>();
+    private int discountFlag;
 
     @Override
     public List<Food> getList() {
@@ -19,13 +20,19 @@ public class Shop implements Store {
 
     @Override
     public boolean add(Food food) {
-        if (expConsumption(food) > ConstantValues.LIMIT_DISCOUNT) {
+        if (expConsumption(food) > ConstantValues.LIMIT_DISCOUNT && discountFlag == 0) {
             if (food.getDiscount() == 0) {
                 throw new IllegalArgumentException("Set Discount!");
             }
             discountFood(food);
+            discountFlag++;
         }
         return accept(food) && list.add(food);
+    }
+
+    @Override
+    public void removeAllFoods() {
+        list.clear();
     }
 
     private void discountFood(Food food) {

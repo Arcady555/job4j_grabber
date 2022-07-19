@@ -21,4 +21,8 @@ public class Warehouse implements Store {
     public boolean add(Food food) {
         return accept(food) && list.add(food);
     }
+
+    public void removeAllFoods() {
+        list.clear();
+    }
 }

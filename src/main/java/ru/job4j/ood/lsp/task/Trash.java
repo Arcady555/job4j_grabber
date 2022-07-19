@@ -20,4 +20,9 @@ public class Trash implements Store {
     public boolean add(Food food) {
         return accept(food) && list.add(food);
     }
+
+    @Override
+    public void removeAllFoods() {
+        list.clear();
+    }
 }

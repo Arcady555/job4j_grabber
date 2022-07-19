@@ -17,4 +17,15 @@ public class ControlQuality {
             }
         }
     }
+
+    public void resort() {
+        List<Food> foodList = new ArrayList<>();
+        for (Store store : storeList) {
+            foodList.addAll(store.getList());
+            store.removeAllFoods();
+        }
+        for (Food food : foodList) {
+            whatWithFood(food);
+        }
+    }
 }

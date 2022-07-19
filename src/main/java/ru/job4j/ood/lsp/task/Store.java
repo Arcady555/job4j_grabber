@@ -10,6 +10,8 @@ public interface Store {
 
     boolean add(Food food);
 
+    void removeAllFoods();
+
     default double expConsumption(Food food) {
         return (double) (Calendar.getInstance().getTimeInMillis()
                 - food.getCreateDate().getTimeInMillis())

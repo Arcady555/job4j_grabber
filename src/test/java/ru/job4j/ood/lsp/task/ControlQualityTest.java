@@ -73,5 +73,11 @@ public class ControlQualityTest {
         assertThat(trash.getList(), is(List.of(milk2)));
         assertThat(warehouse.getList(), is(List.of(bread2)));
         Assert.assertEquals(milk1.getPrice(), 84);
+        controlQuality.resort();
+
+        assertThat(shop.getList(), is(List.of(milk1, bread1)));
+        assertThat(trash.getList(), is(List.of(milk2)));
+        assertThat(warehouse.getList(), is(List.of(bread2)));
+        Assert.assertEquals(milk1.getPrice(), 84);
     }
 }
